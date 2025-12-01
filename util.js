@@ -41,12 +41,14 @@ module.exports.crc32 = function (str) {
 
 /**
  * Parse post's source, pick up `title` and `date` field
- * @param {string} src
+ * @param {string} filePath
  * @return Object
  */
-module.exports.parseSource = function (src) {
+module.exports.parseSource = function (filePath) {
     let title, date;
     let categories = [];
+    // const src = filePath.replace(/\\/g, '/');
+    const src = this.resolve(filePath.replace(/^_posts[\\/]/, '_posts/'));
     let parts = src.split("/");
     const content = fs.readFileSync(src, 'utf-8');
     const firstLine = content.split('\n')[0].trim();
