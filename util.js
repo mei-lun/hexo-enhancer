@@ -44,13 +44,13 @@ module.exports.crc32 = function (str) {
  * @param {string} filePath
  * @return Object
  */
-module.exports.parseSource = function (filePath, hexo) {
+module.exports.parseSource = function (filePath) {
     let title, date;
     let categories = [];
     // const src = filePath.replace(/\\/g, '/');
-    const src = hexo.resolve(filePath.replace(/^_posts[\\/]/, '_posts/'));
+    const src = filePath
     let parts = src.split("/");
-    const content = fs.readFileSync(src, 'utf-8');
+    const content = fs.readFileSync("source/" + src, 'utf-8');
     const firstLine = content.split('\n')[0].trim();
     const h1Regex = /^#\s+(.+)/; // 匹配 "# 标题"
     if (h1Regex.test(firstLine)) {
