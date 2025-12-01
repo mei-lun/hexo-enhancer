@@ -8,7 +8,7 @@ const util = require('./util');
 // console.log(util.parseSource("『20091010』Title"));
 // console.log(util.parseSource("『20091010』Title"));
 
-console.log(util.parseSource("_posts/寅花晨拾/20111027-object file not found.md"));
+console.log(util.parseSource("Notes/skynet源码笔记.md"));
 
 console.log(util.crc32("1234567890asdfghjkl"));
 

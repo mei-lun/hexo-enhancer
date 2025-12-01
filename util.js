@@ -3,6 +3,7 @@ const moment = require('moment-timezone');
 const crc32 = require('buffer-crc32');
 const md5 = require('md5');
 const basex = require('base-x');
+const fs = require('fs');
 
 const base62 = basex("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 const base32 = basex("0123456789ABCDEFGHJKMNPQRSTVWXYZ");
@@ -47,19 +48,33 @@ module.exports.parseSource = function (src) {
     let title, date;
     let categories = [];
     let parts = src.split("/");
-    if (parts.length > 0) {
-        let filename = parts[parts.length - 1];
-        if (filename.indexOf(".") >= 0) {
-            filename = filename.substring(0, filename.indexOf("."));
+    const content = fs.readFileSync(src, 'utf-8');
+    const firstLine = content.split('\n')[0].trim();
+    const h1Regex = /^#\s+(.+)/; // 匹配 "# 标题"
+    if (h1Regex.test(firstLine)) {
+        title = firstLine.match(h1Regex)[1]; // 提取标题部分
+        const dateRegex = /更新:\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2})/;
+        const dateMatch = content.match(dateRegex);
+        if (dateMatch) {
+            date = toMoment(dateMatch[1].trim()); // 使用 toMoment 解析日期
         }
-        let match = filename.match(reg);
-        if (match) {
-            date = toMoment(`${match[1]}-${match[2]}-${match[3]}`);
-            title = match[4];
-        } else {
-            title = filename;
+    } else {
+        if (parts.length > 0) {
+            let filename = parts[parts.length - 1];
+            if (filename.indexOf(".") >= 0) {
+                filename = filename.substring(0, filename.indexOf("."));
+            }
+            let match = filename.match(reg);
+            if (match) {
+                date = toMoment(`${match[1]}-${match[2]}-${match[3]}`);
+                console.log(src)
+                title = match[4];
+            } else {
+                title = filename;
+            }
         }
-    }
+    } 
+
     for (let i = parts.length - 2; i > 0; i--) {
         let part = parts[i];
         if (!part || part === '~' || part === '.' || part === postDir || part === draftDir) {
