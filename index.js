@@ -13,7 +13,7 @@ util.parseTags(hexo.config.keywords, tags);
  * @param log
  * @param data
  */
-function filterPost(log, data) {
+function filterPost(log, data, hexo) {
     let metadata = util.parseSource(data.source, hexo);
 
     if (!data.title) {
@@ -66,9 +66,9 @@ function filterPost(log, data) {
     data.toc = true;
 }
 
-hexo.extend.filter.register('before_post_render', function (data) {
+hexo.extend.filter.register('before_post_render', function (data, hexo) {
     if (data.layout === 'post') {
-        filterPost(this.log, data);
+        filterPost(this.log, data, hexo);
     }
     return data;
 });
