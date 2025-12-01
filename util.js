@@ -44,11 +44,11 @@ module.exports.crc32 = function (str) {
  * @param {string} filePath
  * @return Object
  */
-module.exports.parseSource = function (filePath) {
+module.exports.parseSource = function (filePath, hexo) {
     let title, date;
     let categories = [];
     // const src = filePath.replace(/\\/g, '/');
-    const src = this.resolve(filePath.replace(/^_posts[\\/]/, '_posts/'));
+    const src = hexo.resolve(filePath.replace(/^_posts[\\/]/, '_posts/'));
     let parts = src.split("/");
     const content = fs.readFileSync(src, 'utf-8');
     const firstLine = content.split('\n')[0].trim();

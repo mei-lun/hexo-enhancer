@@ -14,7 +14,7 @@ util.parseTags(hexo.config.keywords, tags);
  * @param data
  */
 function filterPost(log, data) {
-    let metadata = util.parseSource(data.source);
+    let metadata = util.parseSource(data.source, hexo);
 
     if (!data.title) {
         data.title = metadata.title;
