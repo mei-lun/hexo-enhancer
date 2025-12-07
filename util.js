@@ -68,7 +68,7 @@ module.exports.parseSource = function (filePath) {
             title = filename;
         }
     }
-    const dateRegex = /更新:\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2})/;
+    const dateRegex = /.*更新:\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2})/s;
     const dateMatch = content.match(dateRegex);
     if (dateMatch) {
         date = toMoment(dateMatch[1].trim()); // 使用 toMoment 解析日期
