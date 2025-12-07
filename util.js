@@ -73,6 +73,7 @@ module.exports.parseSource = function (filePath) {
     if (dateMatch) {
         date = toMoment(dateMatch[1].trim()); // 使用 toMoment 解析日期
     }
+    console.log("+++++++++title, date: ", title, date)
     for (let i = parts.length - 2; i > 0; i--) {
         let part = parts[i];
         if (!part || part === '~' || part === '.' || part === postDir || part === draftDir) {
